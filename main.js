@@ -98,7 +98,7 @@ function startApp() {
     if (req.query.pass == advancedpassword)
     {
       bannedIP.push(req.query.ip);
-      authenticatedIP = authenticatedIP.filter(e => e !== req.query.ip); // will return ['A', 'C']
+      authenticatedIP = authenticatedIP.filter(e => e !== req.query.ip); 
       res.status(200).send('ok');
     }
     else
